@@ -52,12 +52,12 @@ export function HeroSection() {
             </div>
             <pre className="mt-6 overflow-x-auto text-left text-base text-slate-300">
               <code>{`// Deploy your AI agent in seconds
-import { littleBraek } from '@axion'
+import { littleBreak } from '@axion'
 
 // No coding? No problem.  
-// Sit back, sip your coffee ☕, and let Axicov do the work.  
+// Sit back, sip your coffee ☕, and let Axion do the work.  
 // Build custom AI agents in clicks, not code.  
-✨ Your tasks…automated!`}</code>
+✨ Your tasks… automated!`}</code>
             </pre>
           </div>
         </div>
