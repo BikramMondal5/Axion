@@ -1,4 +1,4 @@
-# 🤖⚡ Axicov – AI Agent Builder
+# ⚡🤖 Axicov – AI Agent Builder
 
 ![Preview Image](./public/axion-landing-page.png)
 A no-code platform that empowers developers and businesses to build, deploy, and scale custom AI agents as APIs — all without writing a single line of code. Sit back, sip your coffee ☕, and let Axicov automate your tasks.
