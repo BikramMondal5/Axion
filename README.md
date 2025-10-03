@@ -1,7 +1,7 @@
 # Axicov – “Sit back, relax… your agents are already working” ⚡☕ 
 
 ![Preview Image](./public/axion-landing-page.png)
-A no-code platform that empowers developers and businesses to build, deploy, and scale custom AI agents as APIs — all without writing a single line of code. Sit back, sip your coffee ☕, and let Axicov automate your tasks.
+A no-code platform that empowers developers and businesses to build, deploy, and scale custom AI agents as APIs - all without writing a single line of code. Sit back, sip your coffee ☕, and let Axicov automate your tasks.
 
 ## 🌟 Features
 - ⚡ Instant Deployment – Launch AI agents with live API endpoints in seconds
@@ -61,4 +61,4 @@ npm run dev
 
 ## 📜 License
 
-This project is licensed under the `MIT License`.
+This project is licensed under the `Apache-2.0 license`.
