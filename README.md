@@ -57,7 +57,7 @@ npm run dev
 ## 🤝 Contribution
 
 **Got ideas? or Found a bug? 🐞**
-- Open an issue or submit a pull request — contributions are always welcome!
+- Open an issue or submit a pull request - contributions are always welcome!
 
 ## 📜 License
 
