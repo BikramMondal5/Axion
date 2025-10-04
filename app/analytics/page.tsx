@@ -1,16 +1,28 @@
 "use client"
 
+import { useState } from "react"
 import { Navbar } from "@/components/navbar"
-import { DashboardSidebar } from "@/components/dashboard-sidebar"
+import { DashboardSidebar, MobileSidebarToggle } from "@/components/dashboard-sidebar"
 import { AnalyticsContent } from "@/components/analytics-content"
 
 export default function AnalyticsPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   return (
     <div className="min-h-screen gradient-bg">
       <Navbar />
       <div className="flex pt-16">
-        <DashboardSidebar />
-        <AnalyticsContent />
+        <DashboardSidebar 
+          mobileMenuOpen={mobileMenuOpen} 
+          setMobileMenuOpen={setMobileMenuOpen} 
+        />
+        <div className="flex-1 overflow-hidden">
+          <MobileSidebarToggle 
+            mobileMenuOpen={mobileMenuOpen} 
+            setMobileMenuOpen={setMobileMenuOpen} 
+          />
+          <AnalyticsContent />
+        </div>
       </div>
     </div>
   )

@@ -1,19 +1,30 @@
 "use client"
 
+import { useState } from "react"
 import { Navbar } from "@/components/navbar"
-import { DashboardSidebar } from "@/components/dashboard-sidebar"
+import { DashboardSidebar, MobileSidebarToggle } from "@/components/dashboard-sidebar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Database, ShieldCheck, KeySquare } from "lucide-react"
 
 export default function UserDatabaseLandingPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   return (
     <div className="min-h-screen gradient-bg">
       <Navbar />
       <div className="flex pt-16">
-        <DashboardSidebar />
-        <main className="flex-1 overflow-y-auto">
+        <DashboardSidebar 
+          mobileMenuOpen={mobileMenuOpen} 
+          setMobileMenuOpen={setMobileMenuOpen} 
+        />
+        <div className="flex-1 overflow-hidden">
+          <MobileSidebarToggle 
+            mobileMenuOpen={mobileMenuOpen} 
+            setMobileMenuOpen={setMobileMenuOpen} 
+          />
+          <main className="flex-1 overflow-y-auto">
           <div className="mx-auto max-w-6xl p-8">
             {/* Breadcrumb-like header */}
             <div className="mb-6">
@@ -74,6 +85,7 @@ export default function UserDatabaseLandingPage() {
             </div>
           </div>
         </main>
+        </div>
       </div>
     </div>
   )

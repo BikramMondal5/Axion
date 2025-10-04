@@ -59,18 +59,18 @@ export function FeaturesSection() {
   const [selectedCard, setSelectedCard] = useState<string | null>(null)
 
   return (
-    <section className="relative overflow-hidden bg-black/[0.96] bg-grid-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-black/[0.96] bg-grid-white/[0.02] px-4 py-16 sm:py-20 lg:py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold sm:text-4xl" style={{ color: "#3591E2" }}>
+        <div className="mb-12 sm:mb-16 text-center">
+          <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold" style={{ color: "#3591E2" }}>
             Everything you need to build AI agents
           </h2>
-          <p className="mx-auto max-w-3xl text-balance text-lg text-slate-400">
+          <p className="mx-auto max-w-3xl text-balance text-base sm:text-lg text-slate-400 px-4 sm:px-0">
             From development to deployment, we've got you covered with powerful tools and features.
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => {
             const IconComponent = feature.icon
             const isSelected = selectedCard === feature.title
@@ -79,18 +79,18 @@ export function FeaturesSection() {
               <Card
                 key={feature.title}
                 onClick={() => setSelectedCard(isSelected ? null : feature.title)}
-                className={`group cursor-pointer border-2 border-transparent p-6 backdrop-blur-sm shadow-lg shadow-black/50 transition-all duration-300 ${
+                className={`group cursor-pointer border-2 border-transparent p-4 sm:p-6 backdrop-blur-sm shadow-lg shadow-black/50 transition-all duration-300 ${
                   feature.hoverBorder
                 } ${isSelected ? "scale-105 shadow-2xl" : "hover:scale-102 hover:shadow-xl"}`}
                 style={{ backgroundColor: "#121212" }}
               >
                 <div
-                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg ${feature.iconBg} ${feature.iconColor} transition-all duration-300`}
+                  className={`mb-3 sm:mb-4 inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg ${feature.iconBg} ${feature.iconColor} transition-all duration-300`}
                 >
-                  <IconComponent className="h-6 w-6" />
+                  <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="mb-2 text-lg text-white font-bold">{feature.title}</h3>
-                <p className="leading-relaxed text-slate-400 text-base">{feature.description}</p>
+                <h3 className="mb-2 text-base sm:text-lg text-white font-bold">{feature.title}</h3>
+                <p className="leading-relaxed text-slate-400 text-sm sm:text-base">{feature.description}</p>
               </Card>
             )
           })}

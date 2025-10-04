@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description:
     "A marketplace where developers and businesses design custom AI agents with Axicov, expose them as APIs, track usage, and scale workflows effortlessly.",
   generator: "v0.app",
+  viewport: "width=device-width, initial-scale=1",
 }
 
 export default function RootLayout({

@@ -63,36 +63,36 @@ const agents = [
 
 export function DashboardContent() {
   return (
-    <main className="flex-1 p-8">
+    <main className="flex-1 p-4 sm:p-6 lg:p-8">
       {/* Header Section */}
-      <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-white">Your AI Agents Overview</h1>
-        <p className="text-slate-400">Manage, deploy, and track your agents in real time.</p>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="mb-2 text-2xl sm:text-3xl font-bold text-white">Your AI Agents Overview</h1>
+        <p className="text-sm sm:text-base text-slate-400">Manage, deploy, and track your agents in real time.</p>
       </div>
 
       {/* Action Buttons */}
-      <div className="mb-8 flex gap-3">
-        <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700">
+      <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row gap-3">
+        <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 w-full sm:w-auto">
           <Plus className="mr-2 h-4 w-4" />
           New Agent
         </Button>
-        <Button variant="outline" className="border-white/10 bg-white/5 text-white hover:bg-white/10">
+        <Button variant="outline" className="border-white/10 bg-white/5 text-white hover:bg-white/10 w-full sm:w-auto">
           <BookOpen className="mr-2 h-4 w-4" />
           Docs
         </Button>
       </div>
 
       {/* Agent Cards Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {agents.map((agent) => (
           <AgentCard key={agent.id} agent={agent} />
         ))}
       </div>
 
       {/* Recent Activity Section */}
-      <div className="mt-12">
-        <h2 className="mb-4 text-xl font-semibold text-white">Recent Activity</h2>
-        <div className="space-y-3 rounded-lg border border-white/5 bg-black/20 p-6 backdrop-blur-sm">
+      <div className="mt-8 sm:mt-12">
+        <h2 className="mb-3 sm:mb-4 text-lg sm:text-xl font-semibold text-white">Recent Activity</h2>
+        <div className="space-y-3 rounded-lg border border-white/5 bg-black/20 p-4 sm:p-6 backdrop-blur-sm">
           <ActivityItem title="Customer Support Bot deployed" time="2 minutes ago" type="success" />
           <ActivityItem title="New API key created for Code Review Assistant" time="15 minutes ago" type="info" />
           <ActivityItem title="Data Analyzer paused by user" time="1 hour ago" type="warning" />
@@ -111,10 +111,10 @@ function ActivityItem({ title, time, type }: { title: string; time: string; type
   }
 
   return (
-    <div className="flex items-center gap-3 text-sm">
-      <div className={`h-2 w-2 rounded-full ${colors[type]}`} />
-      <span className="flex-1 text-slate-300">{title}</span>
-      <span className="text-slate-500">{time}</span>
+    <div className="flex items-start sm:items-center gap-3 text-xs sm:text-sm">
+      <div className={`h-2 w-2 rounded-full ${colors[type]} mt-1 sm:mt-0 flex-shrink-0`} />
+      <span className="flex-1 text-slate-300 leading-relaxed">{title}</span>
+      <span className="text-slate-500 text-xs whitespace-nowrap">{time}</span>
     </div>
   )
 }

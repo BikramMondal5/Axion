@@ -26,7 +26,7 @@ export function AgentCard({ agent }: { agent: Agent }) {
 
   return (
     <Card
-      className="group relative overflow-hidden border border-white/5 bg-[#121212] p-6 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-white/20 hover:shadow-2xl hover:shadow-indigo-500/20"
+      className="group relative overflow-hidden border border-white/5 bg-[#121212] p-4 sm:p-6 backdrop-blur-sm transition-all duration-300 hover:scale-102 sm:hover:scale-105 hover:border-white/20 hover:shadow-2xl hover:shadow-indigo-500/20"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -38,13 +38,13 @@ export function AgentCard({ agent }: { agent: Agent }) {
       {/* Card Content */}
       <div className="relative">
         {/* Header */}
-        <div className="mb-4 flex items-start justify-between">
-          <div>
-            <h3 className="mb-1 text-lg font-semibold text-white">{agent.name}</h3>
-            <p className="text-sm text-slate-400">{agent.model}</p>
+        <div className="mb-3 sm:mb-4 flex items-start justify-between">
+          <div className="flex-1 min-w-0">
+            <h3 className="mb-1 text-base sm:text-lg font-semibold text-white truncate">{agent.name}</h3>
+            <p className="text-xs sm:text-sm text-slate-400">{agent.model}</p>
           </div>
           <span
-            className={`rounded-full border px-3 py-1 text-xs font-medium ${
+            className={`rounded-full border px-2 sm:px-3 py-1 text-xs font-medium whitespace-nowrap ml-2 ${
               statusColors[agent.status as keyof typeof statusColors]
             }`}
           >
@@ -73,16 +73,17 @@ export function AgentCard({ agent }: { agent: Agent }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-2">
-          <Button size="sm" className="flex-1 bg-white/5 text-white hover:bg-white/10">
+        <div className="flex gap-1.5 sm:gap-2">
+          <Button size="sm" className="flex-1 bg-white/5 text-white hover:bg-white/10 text-xs sm:text-sm px-2 sm:px-3">
             <Play className="mr-1 h-3 w-3" />
-            Deploy
+            <span className="hidden xs:inline">Deploy</span>
+            <span className="xs:hidden">▶</span>
           </Button>
-          <Button size="sm" variant="ghost" className="text-slate-400 hover:bg-white/5 hover:text-white">
-            <Settings className="h-4 w-4" />
+          <Button size="sm" variant="ghost" className="text-slate-400 hover:bg-white/5 hover:text-white px-2 sm:px-3">
+            <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
-          <Button size="sm" variant="ghost" className="text-slate-400 hover:bg-white/5 hover:text-red-400">
-            <Trash2 className="h-4 w-4" />
+          <Button size="sm" variant="ghost" className="text-slate-400 hover:bg-white/5 hover:text-red-400 px-2 sm:px-3">
+            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </div>
