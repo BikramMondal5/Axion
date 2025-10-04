@@ -52,6 +52,12 @@ export function Navbar() {
               >
                 Community
               </Link>
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium text-slate-300 transition-colors hover:text-purple-500 active:text-purple-500"
+              >
+                Dashboard
+              </Link>
             </div>
 
             {/* Right: Buttons */}
