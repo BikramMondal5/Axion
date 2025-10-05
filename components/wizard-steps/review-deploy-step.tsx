@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Check, Rocket, Save } from "lucide-react"
+import { Check, Rocket, Save, Copy, Link as LinkIcon } from "lucide-react"
 import type { AgentData } from "@/components/agent-creation-wizard"
 
 interface ReviewDeployStepProps {
@@ -12,14 +12,59 @@ interface ReviewDeployStepProps {
   updateAgentData: (updates: Partial<AgentData>) => void
 }
 
-export function ReviewDeployStep({ agentData }: ReviewDeployStepProps) {
+export function ReviewDeployStep({ agentData, updateAgentData }: ReviewDeployStepProps) {
   const [isDeployed, setIsDeployed] = useState(false)
+  const [deploying, setDeploying] = useState(false)
+  const [statusMessage, setStatusMessage] = useState<string | null>(null)
+  const [endpointUrl, setEndpointUrl] = useState<string | null>(null)
 
-  const handleDeploy = () => {
-    // Simulate deployment
-    setTimeout(() => {
-      setIsDeployed(true)
-    }, 1000)
+  const handleDeploy = async () => {
+    setDeploying(true)
+    setStatusMessage(null)
+
+    try {
+      const res = await fetch("/api/deploy-agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(agentData),
+      })
+
+      const payload = await res.json()
+
+      // handle errors returned by the API
+      if (!res.ok) {
+        const errMsg = payload?.error || payload?.message || "Deployment failed"
+        setStatusMessage(errMsg)
+        setDeploying(false)
+        return
+      }
+
+      // expected success payload shape: { success: boolean, log?: string, endpoint?: string }
+      if (payload.success) {
+        setIsDeployed(true)
+        setStatusMessage("Deployment successful")
+        if (payload.endpoint) setEndpointUrl(payload.endpoint)
+      } else {
+        // If CLI returned success: false but with logs / message
+        const err = payload.log || payload.error || "Deployment returned failure"
+        setStatusMessage(err)
+      }
+    } catch (err: any) {
+      setStatusMessage(err?.message ?? "Network or server error")
+    } finally {
+      setDeploying(false)
+    }
+  }
+
+  const copyEndpoint = async () => {
+    if (!endpointUrl) return
+    try {
+      await navigator.clipboard.writeText(endpointUrl)
+      setStatusMessage("Endpoint copied to clipboard")
+      setTimeout(() => setStatusMessage(null), 2000)
+    } catch {
+      setStatusMessage("Failed to copy endpoint")
+    }
   }
 
   if (isDeployed) {
@@ -30,16 +75,58 @@ export function ReviewDeployStep({ agentData }: ReviewDeployStepProps) {
         </div>
         <div>
           <h2 className="text-3xl font-bold text-white">🎉 Your Agent is Live!</h2>
-          <p className="mt-2 text-slate-400">Access it from the Dashboard or share it via API</p>
+          <p className="mt-2 text-slate-400">Access it from the Dashboard or use the API endpoint below</p>
         </div>
+
+        {endpointUrl ? (
+          <Card className="w-full max-w-2xl border-slate-700 bg-black/40 p-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="truncate text-sm text-slate-300">
+                <div className="flex items-center gap-2">
+                  <LinkIcon className="h-4 w-4 text-slate-400" />
+                  <span className="truncate">{endpointUrl}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" onClick={copyEndpoint} className="flex items-center gap-2">
+                  <Copy className="h-4 w-4" />
+                  Copy
+                </Button>
+                <Button asChild>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={endpointUrl}
+                    className="flex items-center gap-2"
+                  >
+                    <Rocket className="h-4 w-4" />
+                    Test
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ) : (
+          <p className="text-sm text-slate-400">No endpoint was returned by the deployment API.</p>
+        )}
+
         <div className="flex gap-3">
-          <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700">
+          <Button
+            onClick={() => (window.location.href = "/dashboard")}
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
+          >
             Go to Dashboard
           </Button>
-          <Button variant="outline" className="border-slate-700 bg-transparent text-slate-300 hover:bg-white/5">
+          <Button
+            variant="outline"
+            onClick={() => (window.location.href = "/docs")}
+            className="border-slate-700 bg-transparent text-slate-300 hover:bg-white/5"
+          >
             View API Docs
           </Button>
         </div>
+
+        {statusMessage && <p className="mt-2 text-sm text-slate-400">{statusMessage}</p>}
       </div>
     )
   }
@@ -51,10 +138,8 @@ export function ReviewDeployStep({ agentData }: ReviewDeployStepProps) {
         <p className="mt-2 text-sm text-slate-400">Review your agent configuration before deployment</p>
       </div>
 
-      {/* Summary Card */}
       <Card className="border-slate-700 bg-black/40 p-6">
         <div className="space-y-4">
-          {/* Agent Info */}
           <div className="flex items-start gap-4">
             <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 text-3xl shadow-[0_0_20px_rgba(168,85,247,0.3)]">
               {agentData.icon}
@@ -70,7 +155,6 @@ export function ReviewDeployStep({ agentData }: ReviewDeployStepProps) {
 
           <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
 
-          {/* Configuration Details */}
           <div className="grid gap-3 text-sm">
             <div className="flex justify-between">
               <span className="text-slate-400">AI Model</span>
@@ -124,7 +208,6 @@ export function ReviewDeployStep({ agentData }: ReviewDeployStepProps) {
         </div>
       </Card>
 
-      {/* Estimated Cost (Optional) */}
       <Card className="border-purple-500/20 bg-purple-500/5 p-4">
         <div className="flex items-center justify-between">
           <div>
@@ -135,20 +218,33 @@ export function ReviewDeployStep({ agentData }: ReviewDeployStepProps) {
         </div>
       </Card>
 
-      {/* Action Buttons */}
       <div className="flex gap-3">
         <Button
           onClick={handleDeploy}
+          disabled={deploying}
           className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
         >
           <Rocket className="mr-2 h-4 w-4" />
-          Deploy Agent
+          {deploying ? "Deploying..." : "Deploy Agent"}
         </Button>
-        <Button variant="outline" className="border-slate-700 bg-transparent text-slate-300 hover:bg-white/5">
+        <Button
+          variant="outline"
+          className="border-slate-700 bg-transparent text-slate-300 hover:bg-white/5"
+          onClick={() => {
+            // Save as draft logic could call an API or localStorage. For now just update data
+            setStatusMessage("Saved as draft")
+            setTimeout(() => setStatusMessage(null), 1500)
+            if (typeof updateAgentData === "function") {
+              updateAgentData({}) // placeholder if you want to toggle status in parent
+            }
+          }}
+        >
           <Save className="mr-2 h-4 w-4" />
           Save as Draft
         </Button>
       </div>
+
+      {statusMessage && <p className="mt-2 text-sm text-slate-400">{statusMessage}</p>}
     </div>
   )
 }

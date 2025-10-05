@@ -6,7 +6,7 @@
 # next.js
 /.next/
 /out/
-
+/temp_projects/
 # production
 /build
 
